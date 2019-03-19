@@ -5,30 +5,35 @@ import java.util.concurrent.Semaphore;
 
 public class Estudiante extends Thread {
 	
-	private Semaphore Monitor;
-	private Semaphore SalaEspera;
+	
+	private OficinaMonitor oficina;
 	private String Nombre;             // El nombre del carro
 	private Random GenAleat;           // Un generador de números aleatorios
 	
 	
-	
-	
-	
-	public Estudiante(Semaphore monitor, Semaphore salaEspera, String nombre, long semilla) {
+	public Estudiante(OficinaMonitor ofi, String nombre, long semilla) {
 		super();
-		Monitor = monitor;
-		SalaEspera = salaEspera;
+		oficina=ofi;
 		Nombre = nombre;
 		GenAleat = new Random(semilla);
 	}
-
-
-
-
-
 	public void run() {
 			while (true) {
-				
+				try {
+					
+					if(oficina.getListaEstudiantes().size()<3) {
+						System.out.println("- ["+Nombre+"] Estoy en la oficina esperando en las sillas...");
+						oficina.llegaEstudiante(Nombre);
+					}else {
+						// si la sala de espera esta ocupada se va a dormir "Estudiar"
+
+						System.out.println("- ["+Nombre+"] Estoy en la oficina pero esta lleno, me voy :(");
+						sleep(Math.abs(GenAleat.nextInt()) % 1000);
+					}
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 			}
 	}
 	
