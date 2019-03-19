@@ -18,17 +18,19 @@ public class Estudiante extends Thread {
 		GenAleat = new Random(semilla);
 	}
 	public void run() {
-			while (true) {
+		Boolean isAtendido=false;
+			while (!isAtendido) {
 				try {
 					
 					if(oficina.getListaEstudiantes().size()<3) {
 						System.out.println("- ["+Nombre+"] Estoy en la oficina esperando en las sillas...");
 						oficina.llegaEstudiante(Nombre);
+						isAtendido=true;
 					}else {
 						// si la sala de espera esta ocupada se va a dormir "Estudiar"
 
 						System.out.println("- ["+Nombre+"] Estoy en la oficina pero esta lleno, me voy :(");
-						sleep(Math.abs(GenAleat.nextInt()) % 1000);
+					sleep(Math.abs(GenAleat.nextInt()) % 1000);
 					}
 					
 				} catch (Exception e) {

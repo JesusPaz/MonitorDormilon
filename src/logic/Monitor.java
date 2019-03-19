@@ -7,11 +7,9 @@ public class Monitor extends Thread {
 
 	private Semaphore isOcupado;
 	private OficinaMonitor oficina;
-	private String Nombre;             // El nombre del carro
-	private Random GenAleat;           // Un generador de números aleatorios
-	
-	
-	
+	private String Nombre; // El nombre del carro
+	private Random GenAleat; // Un generador de números aleatorios
+
 	public Monitor(OficinaMonitor oficina, String nombre, long semilla) {
 		super();
 		this.isOcupado = new Semaphore(1);
@@ -20,26 +18,30 @@ public class Monitor extends Thread {
 		GenAleat = new Random(semilla);
 	}
 
-
 	public void run() {
-	
-		while (oficina.getListaEstudiantes().size()>0) {
+
+		while (true) {
 			try {
-				
-				isOcupado.acquire();
-				
-				sleep(Math.abs(GenAleat.nextInt()) % 1000);
-				
-				oficina.saleEstudiante();
-				
-				isOcupado.release();
-				
-				
+
+				if (oficina.getListaEstudiantes().size() > 0) {
+					isOcupado.acquire();
+
+					sleep(Math.abs(GenAleat.nextInt()) % 1000);
+
+					String act = oficina.saleEstudiante();
+
+					System.out.println("- ["+Nombre+"] "+act+" atendido...");
+					isOcupado.release();
+				} else {
+					sleep(Math.abs(GenAleat.nextInt()) % 1000);
+
+					System.out.println("- ["+Nombre+"] Voy a dormir...");
+				}
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
-	
 
 }

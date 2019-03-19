@@ -19,6 +19,7 @@ public class OficinaMonitor {
 		try {
 				AreaEspera.acquire();
 				listaEstudiantes.add(nombre);
+				System.out.println("- ["+nombre+"] Agregado a la lista de espera");
 				AreaEspera.release();
 				
 		} catch (Exception e) {
@@ -26,16 +27,20 @@ public class OficinaMonitor {
 		}
 	}
 	
-	public void saleEstudiante() {
+	public String saleEstudiante() {
 		try {
 			if(listaEstudiantes.size()>0) {
 				AreaEspera.acquire();
-				listaEstudiantes.poll();
+				String act =listaEstudiantes.poll();
+				System.out.println("- ["+act+"] Saliendo de la lista de espera");
 				AreaEspera.release(); 
+				return act;
 			}
+			return "";
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		return "";
 	}
 
 	public PriorityQueue<String> getListaEstudiantes() {
