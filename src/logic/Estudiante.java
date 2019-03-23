@@ -18,14 +18,14 @@ public class Estudiante extends Thread {
 		GenAleat = new Random(semilla);
 	}
 	public void run() {
-		Boolean isAtendido=false;
-			while (!isAtendido) {
+//		Boolean isAtendido=false;
+			while (true) {
 				try {
 					
 					if(oficina.getListaEstudiantes().size()<3) {
 						System.out.println("- ["+Nombre+"] Estoy en la oficina esperando en las sillas...");
 						oficina.llegaEstudiante(Nombre);
-						isAtendido=true;
+//						isAtendido=true;
 					}else {
 						// si la sala de espera esta ocupada se va a dormir "Estudiar"
 
